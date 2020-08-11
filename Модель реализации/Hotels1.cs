@@ -11,8 +11,9 @@ using System.Windows.Forms;
 
 namespace Модель_реализации
 {
-    public partial class Country : Form
+    public partial class Hotels1 : Form
     {
+
         MySqlCommand cmd;
         MySqlDataReader reader;
         MySqlConnectionStringBuilder db = new MySqlConnectionStringBuilder
@@ -25,7 +26,7 @@ namespace Модель_реализации
             CharacterSet = "utf8"
         };
 
-        public Country()
+        public Hotels1()
         {
             InitializeComponent();
         }
@@ -39,9 +40,12 @@ namespace Модель_реализации
                 {
                     MessageBox.Show("Пожалуйста подождите, список загружается!", "Напоминание", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    //string query = "SELECT id_страны AS id, Страна FROM `Страны` WHERE 1";
+                    //string query = "SELECT * FROM `Отели` WHERE 1";
+                    string query =
+                        "SELECT Отели.id_отеля AS 'ID отеля', Отели.Отель, Города.Город AS 'Находится в городе:', Отели.Описание " +
+                        "FROM Отели " +
+                        "INNER JOIN Города ON Отели.Город = id_города";
 
-                    string query = "SELECT id_страны AS 'ID страны', Страна FROM Страны";
                     cmd = new MySqlCommand(query, conn);
                     conn.Open();
                     reader = cmd.ExecuteReader();
@@ -56,13 +60,14 @@ namespace Модель_реализации
         }
 
 
-        private async void Button1_Click(object sender, EventArgs e)
+        private async void Button1_ClickAsync(object sender, EventArgs e)
         {
             dataGridView1.DataSource = await Task.Run(() => GetData());
-            button1.Text = "Обновить список стран";
+            button1.Text = "Обновить список отелей";
         }
 
-        private async void Button2_Click(object sender, EventArgs e)
+
+        private async void Button2_ClickAsync(object sender, EventArgs e)
         {
             try
             {
@@ -76,9 +81,9 @@ namespace Модель_реализации
                         conn.Open();
                         int indRow = dataGridView1.CurrentRow.Index; // узнаём текущую строку
 
-                        int id_страны = Convert.ToInt32(dataGridView1.Rows[indRow].Cells[0].Value);
+                        int id_отеля = Convert.ToInt32(dataGridView1.Rows[indRow].Cells[0].Value);
 
-                        string query = "DELETE FROM Страны WHERE id_страны = '" + id_страны.ToString() + "'";
+                        string query = "DELETE FROM Отели WHERE id_отеля = '" + id_отеля.ToString() + "'";
                         cmd = new MySqlCommand(query, conn);
                         cmd.ExecuteNonQuery();
                         conn.Close();
@@ -94,9 +99,9 @@ namespace Модель_реализации
             }
         }
 
-        private void ЗакрытьToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
-            Close();
+
         }
     }
 }

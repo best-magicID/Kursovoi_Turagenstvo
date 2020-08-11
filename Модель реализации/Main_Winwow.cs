@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Модель_реализации
 {
-    public partial class Form1 : Form
+    public partial class Main_Winwow : Form
     {
 
         MySqlCommand cmd;
@@ -19,7 +19,6 @@ namespace Модель_реализации
         MySqlConnectionStringBuilder db = new MySqlConnectionStringBuilder
         {
             Server = "pgsha.ru",
-
             UserID = "soft0008",
             Password = "b2TAEsRu",
             Database = "soft0008",
@@ -28,7 +27,7 @@ namespace Модель_реализации
         };
 
         #region Kod
-        public Form1()
+        public Main_Winwow()
         {
             InitializeComponent();
         }
@@ -40,25 +39,25 @@ namespace Модель_реализации
 
         private void поискПоЗаявкамToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form form4 = new Form4();
+            Form form4 = new listOfClients();
             form4.Show();
         }
 
         private void ДобавитьЗаявкуToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form form2 = new Form2();
+            Form form2 = new addRequest();
             form2.Show();
         }
 
         private void СправкаToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form form5 = new Form5();
+            Form form5 = new Information();
             form5.Show();
         }
 
         private void КурортыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form form3 = new Form3();
+            Form form3 = new Hotels1();
             form3.Show();
         }
 
@@ -100,13 +99,13 @@ namespace Модель_реализации
                 using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
                 {
                     conn.Open();
-                    MessageBox.Show("Подключение к БД установлено");
+                    MessageBox.Show("Подключение к БД установлено", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     conn.Close();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Проблемы с подключением к БД \n\r" + ex.ToString());
+                MessageBox.Show("Проблемы с подключением к БД \n\r" + ex.ToString(), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
         } //проверка соединения
 
@@ -117,8 +116,29 @@ namespace Модель_реализации
             {
                 using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
                 {
+                    MessageBox.Show("Пожалуйста подождите, список загружается!", "Напоминание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     //string query = "SELECT * FROM `Заявки` WHERE 1";
-                    string query = "SELECT `id_заявки`, `Фамилия`, `Имя`, `Отчество`, `Страны.Страна`, `Город`, `Отель`, `Способ_отправки`, `Дата_отправки`, `Количество_дней`, `Оплачен` FROM `Заявки`, Страны, Города, Отели WHERE 1";
+
+                    string query =
+                        "SELECT Заявки.id_заявки AS 'ID заявки', Заявки.Фамилия, Заявки.Имя, Заявки.Отчество, " +
+                        "Страны.Страна, Города.Город , Отели.Отель, " +
+                        "Заявки.Способ_отправки AS 'Способ отправки', Заявки.Дата_отправки  AS 'Дата отправки', Заявки.Количество_дней AS 'Количество дней', Заявки.Оплачен " +
+                        "FROM Заявки " +
+                        "INNER JOIN Страны ON Заявки.Страна = id_страны " +
+                        "INNER JOIN Города ON Заявки.Город = id_города " +
+                        "INNER JOIN Отели ON Заявки.Отель = id_Отеля "; 
+
+                    //рабочая версия
+                    //string query = 
+                    //    "SELECT Заявки.id_заявки AS ID, Заявки.Фамилия, Заявки.Имя, Заявки.Отчество, " +
+                    //    "Страны.Страна AS id_страны, Города.Город AS id_города, Отели.Отель AS id_отеля, " +
+                    //    "Заявки.Способ_отправки, Заявки.Дата_отправки, Заявки.Количество_дней, Заявки.Оплачен " +
+                    //    "FROM Заявки " +
+                    //    "INNER JOIN Страны ON Заявки.Страна = id_страны " +
+                    //    "INNER JOIN Города ON Заявки.Город = id_города " +
+                    //    "INNER JOIN Отели ON Заявки.Отель = id_Отеля "; 
+
                     cmd = new MySqlCommand(query, conn);
                     conn.Open();
                     reader = cmd.ExecuteReader();
@@ -130,7 +150,7 @@ namespace Модель_реализации
                 MessageBox.Show("Проблемы с подключением к БД \n\r" + ex.ToString());
             }
             return dt;
-        } //метод для показания 
+        } // для показа таблицы
 
         private async void Button3_Click(object sender, EventArgs e)
         {
@@ -184,6 +204,15 @@ namespace Модель_реализации
             {
                 MessageBox.Show("Проблемы с подключением к БД \n\r" + ex.ToString());
             }
+        }
+
+        private void Main_Winwow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //DialogResult rsl = MessageBox.Show("Вы действительно хотите выйти из программы?", "Внимание!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            //if (rsl == DialogResult.Yes)
+            //    Application.Exit();
+
         }
     }
 }

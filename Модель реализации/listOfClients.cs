@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Модель_реализации
 {
-    public partial class Form4 : Form
+    public partial class listOfClients : Form
     {
-        public Form4()
+        public listOfClients()
         {
             InitializeComponent();
         }

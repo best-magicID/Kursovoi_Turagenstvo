@@ -26,44 +26,48 @@ namespace Модель_реализации
             CharacterSet = "utf8"
         };
 
-
-
         public addCity()
         {
             InitializeComponent();
-
         }
 
         private void Button1_Click(object sender, EventArgs e)
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
+                if (textBox1.Text == "")
                 {
-                    int getNumCountry()
+                    MessageBox.Show("Введите значения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
                     {
-                        MySqlDataReader reader;
-                        string sql = "SELECT id_страны FROM Страны WHERE Страна = " +
-                        "'" + comboBox1.SelectedItem + "'";
+                        int getNumCountry()
+                        {
+                            MySqlDataReader reader;
+                            string sql = "SELECT id_страны FROM Страны WHERE Страна = " +
+                            "'" + comboBox1.SelectedItem + "'";
+
+                            conn.Open();
+                            cmd = new MySqlCommand(sql, conn);
+                            reader = cmd.ExecuteReader();
+                            reader.Read();
+                            int numId = Convert.ToInt32(reader[0]); // номер группы
+                            reader.Close();
+                            conn.Close();
+                            return numId;
+                        }
+
+                        string query = "INSERT INTO Города (Город, Страна) VALUES('" + textBox1.Text + "'" + ",'" + getNumCountry().ToString() + "')";
 
                         conn.Open();
-                        cmd = new MySqlCommand(sql, conn);
-                        reader = cmd.ExecuteReader();
-                        reader.Read();
-                        int numId = Convert.ToInt32(reader[0]); // номер группы
-                        reader.Close();
+                        cmd = new MySqlCommand(query, conn);
+                        cmd.ExecuteNonQuery();
                         conn.Close();
-                        return numId;
+                        MessageBox.Show("Город добавлен", "", MessageBoxButtons.OK);
+                        textBox1.Text = "";
                     }
-
-                    string query = "INSERT INTO Города (Город, Страна) VALUES('" + textBox1.Text + "'" + ",'" + getNumCountry().ToString() + "')";
-
-                    conn.Open();
-                    cmd = new MySqlCommand(query, conn);
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                    MessageBox.Show("Город добавлен", "", MessageBoxButtons.OK);
-                    textBox1.Text = "";
                 }
             }
             catch (Exception ex)

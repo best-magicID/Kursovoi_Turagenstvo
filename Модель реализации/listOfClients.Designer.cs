@@ -1,6 +1,6 @@
 ﻿namespace Модель_реализации
 {
-    partial class Form4
+    partial class listOfClients
     {
         /// <summary>
         /// Required designer variable.

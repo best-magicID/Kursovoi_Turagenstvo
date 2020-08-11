@@ -18,7 +18,6 @@ namespace Модель_реализации
         MySqlConnectionStringBuilder db = new MySqlConnectionStringBuilder
         {
             Server = "pgsha.ru",
-
             UserID = "soft0008",
             Password = "b2TAEsRu",
             Database = "soft0008",
@@ -38,8 +37,12 @@ namespace Модель_реализации
             {
                 using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
                 {
+                    MessageBox.Show("Пожалуйста подождите, список загружается!", "Напоминание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     //string query = "SELECT id_города, Город, Страна FROM Города WHERE 1";
-                    string query = "SELECT Города.id_города, Города.Город, Страны.Страна AS id_страны FROM Города INNER JOIN Страны ON Города.Страна = id_страны";
+                    string query = "SELECT Города.id_города AS 'ID города', Города.Город, Страны.Страна AS 'Находится в стране:' " +
+                        "FROM Города " +
+                        "INNER JOIN Страны ON Города.Страна = id_страны";
 
                     cmd = new MySqlCommand(query, conn);
                     conn.Open();

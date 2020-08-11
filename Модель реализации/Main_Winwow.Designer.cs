@@ -1,6 +1,6 @@
 ﻿namespace Модель_реализации
 {
-    partial class Form1
+    partial class Main_Winwow
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -175,6 +175,7 @@
             this.выходToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
+            this.выходToolStripMenuItem.Visible = false;
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.ВыходToolStripMenuItem_Click);
             // 
             // dataGridView1
@@ -267,14 +268,14 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.Button5_Click);
             // 
-            // Form1
+            // Main_Winwow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1161, 450);
-            this.ControlBox = false;
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.panel1);
@@ -284,13 +285,13 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.HelpButton = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
-            this.ShowIcon = false;
+            this.Name = "Main_Winwow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Туристическое агентство";
-            this.TransparencyKey = System.Drawing.SystemColors.ActiveBorder;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_Winwow_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

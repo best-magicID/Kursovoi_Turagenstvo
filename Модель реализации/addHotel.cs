@@ -62,33 +62,40 @@ namespace Модель_реализации
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
+                if (textBox1.Text == "" || textBox2.Text == "" || comboBox1.Text == "")
                 {
-                    int getNumCity()
+                    MessageBox.Show("Введите значения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
                     {
-                        MySqlDataReader reader;
-                        string sql = "SELECT id_города FROM Города WHERE Город = " +
-                        "'" + comboBox1.SelectedItem + "'";
+                        int getNumCity()
+                        {
+                            MySqlDataReader reader;
+                            string sql = "SELECT id_города FROM Города WHERE Город = " +
+                            "'" + comboBox1.SelectedItem + "'";
+
+                            conn.Open();
+                            cmd = new MySqlCommand(sql, conn);
+                            reader = cmd.ExecuteReader();
+                            reader.Read();
+                            int numId = Convert.ToInt32(reader[0]); // номер группы
+                            reader.Close();
+                            conn.Close();
+                            return numId;
+                        }
+
+                        string query = "INSERT INTO Отели (Отель, Город, Описание) VALUES('" + textBox1.Text + "','" + getNumCity().ToString() + "','" + textBox2.Text + "')";
 
                         conn.Open();
-                        cmd = new MySqlCommand(sql, conn);
-                        reader = cmd.ExecuteReader();
-                        reader.Read();
-                        int numId = Convert.ToInt32(reader[0]); // номер группы
-                        reader.Close();
+                        cmd = new MySqlCommand(query, conn);
+                        cmd.ExecuteNonQuery();
                         conn.Close();
-                        return numId;
+                        MessageBox.Show("Отель добавлен", "", MessageBoxButtons.OK);
+                        textBox1.Text = "";
+                        textBox2.Text = "";
                     }
-
-                    string query = "INSERT INTO Отели (Отель, Город, Описание) VALUES('" + textBox1.Text + "','" + getNumCity().ToString() + "','" + textBox2.Text + "')";
-
-                    conn.Open();
-                    cmd = new MySqlCommand(query, conn);
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                    MessageBox.Show("Отель добавлен", "", MessageBoxButtons.OK);
-                    textBox1.Text = "";
-                    textBox2.Text = "";
                 }
             }
             catch (Exception ex)

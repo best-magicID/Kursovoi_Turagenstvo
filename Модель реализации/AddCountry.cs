@@ -33,17 +33,24 @@ namespace Модель_реализации
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
+                if (textBox1.Text == "")
                 {
+                    MessageBox.Show("Введите значения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
+                    {
 
-                    string query = "INSERT INTO Страны (Страна) VALUES ('" + textBox1.Text + "')";
+                        string query = "INSERT INTO Страны (Страна) VALUES ('" + textBox1.Text + "')";
 
-                    conn.Open();
-                    cmd = new MySqlCommand(query, conn);
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                    MessageBox.Show("Страна добавлена", "", MessageBoxButtons.OK);
-                    textBox1.Text = "";
+                        conn.Open();
+                        cmd = new MySqlCommand(query, conn);
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        MessageBox.Show("Страна добавлена", "", MessageBoxButtons.OK);
+                        textBox1.Text = "";
+                    }
                 }
             }
             catch (Exception ex)

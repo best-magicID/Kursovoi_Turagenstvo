@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Модель_реализации
 {
-    public partial class Form2 : Form
+    public partial class addRequest : Form
     {
         string sql1, sql2, sql3;
         MySqlCommand cmd1, cmd2, cmd3;
@@ -118,7 +118,7 @@ namespace Модель_реализации
             }
         }
 
-        public Form2()
+        public addRequest()
         {
             InitializeComponent();
         }
@@ -127,80 +127,89 @@ namespace Модель_реализации
         {
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
+
+                if (textBox2.Text == "" || textBox3.Text == "" || textBox4.Text == "" || comboBox1.Text == "" || comboBox2.Text == "" || comboBox3.Text == "Выберите отель" || comboBox3.Text == "")
                 {
-                    int getNumCountry()
-                    {
-                        MySqlDataReader reader;
-                        string sql = "SELECT id_страны FROM Страны WHERE Страна = " +
-                        "'" + comboBox1.SelectedItem + "'";
-
-                        conn.Open();
-                        cmd1 = new MySqlCommand(sql, conn);
-                        reader = cmd1.ExecuteReader();
-                        reader.Read();
-                        int numId = Convert.ToInt32(reader[0]); // номер группы
-                        reader.Close();
-                        conn.Close();
-                        return numId;
-                    }
-
-                    int getNumCity()
-                    {
-                        MySqlDataReader reader;
-                        string sql = "SELECT id_города FROM Города WHERE Город = " +
-                        "'" + comboBox2.SelectedItem + "'";
-
-                        conn.Open();
-                        cmd1 = new MySqlCommand(sql, conn);
-                        reader = cmd1.ExecuteReader();
-                        reader.Read();
-                        int numId = Convert.ToInt32(reader[0]); // номер группы
-                        reader.Close();
-                        conn.Close();
-                        return numId;
-                    }
-
-                    int getNumHotel()
-                    {
-                        MySqlDataReader reader;
-                        string sql = "SELECT id_отеля FROM Отели WHERE Отель = " +
-                        "'" + comboBox3.SelectedItem + "'";
-
-                        conn.Open();
-                        cmd1 = new MySqlCommand(sql, conn);
-                        reader = cmd1.ExecuteReader();
-                        reader.Read();
-                        int numId = Convert.ToInt32(reader[0]); // номер группы
-                        reader.Close();
-                        conn.Close();
-                        return numId;
-                    }
-
-                    //string query = "INSERT INTO Заявки (Фамилия, Имя, Отчество, Страна, Город, Отель) VALUES(" +
-                    //string query = "INSERT INTO Заявки (Фамилия, Имя, Отчество, Страна, Город, Отель, Способ_отправки, Количество_дней, Оплачен) VALUES(" +
-                    string query = "INSERT INTO Заявки (Фамилия, Имя, Отчество, Страна, Город, Отель, Способ_отправки, Дата_отправки, Количество_дней, Оплачен) VALUES("+
-                        "'" + textBox2.Text + "'," +    //фамилия
-                        "'" + textBox3.Text + "'," +    //имя
-                        "'" + textBox4.Text + "'," +    //отчество
-                        "'" + getNumCountry().ToString() + "'," + //страна
-                        "'" + getNumCity().ToString() + "'," +   //город
-                        "'" + getNumHotel().ToString() + "'," +  //отель
-                        "'" + comboBox4.Text + "'," +   // Способ отправки
-                        "'" + textBox5.Text + "'," +    //Дата отправки
-                       //"'" + dateTimePicker1.ToString() + "'," +
-                        "'" + Convert.ToString(comboBox5.Text) + "'," +   // кол-во
-                        "'" + comboBox6.Text + "')";   // Способ отправки;
-
-                    conn.Open();
-                    cmd1 = new MySqlCommand(query, conn);
-                    cmd1.ExecuteNonQuery();
-                    conn.Close();
-                    MessageBox.Show("Заявка добавлена", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    textBox2.Text = "";
-                    textBox3.Text = "";
-                    textBox4.Text = "";
+                    MessageBox.Show("Введите значения", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+                else
+                {
+                    using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
+                    {
+                        int getNumCountry()
+                        {
+                            MySqlDataReader reader;
+                            string sql = "SELECT id_страны FROM Страны WHERE Страна = " +
+                            "'" + comboBox1.SelectedItem + "'";
+
+                            conn.Open();
+                            cmd1 = new MySqlCommand(sql, conn);
+                            reader = cmd1.ExecuteReader();
+                            reader.Read();
+                            int numId = Convert.ToInt32(reader[0]); // номер группы
+                            reader.Close();
+                            conn.Close();
+                            return numId;
+                        }
+
+                        int getNumCity()
+                        {
+                            MySqlDataReader reader;
+                            string sql = "SELECT id_города FROM Города WHERE Город = " +
+                            "'" + comboBox2.SelectedItem + "'";
+
+                            conn.Open();
+                            cmd1 = new MySqlCommand(sql, conn);
+                            reader = cmd1.ExecuteReader();
+                            reader.Read();
+                            int numId = Convert.ToInt32(reader[0]); // номер группы
+                            reader.Close();
+                            conn.Close();
+                            return numId;
+                        }
+
+                        int getNumHotel()
+                        {
+                            MySqlDataReader reader;
+                            string sql = "SELECT id_отеля FROM Отели WHERE Отель = " +
+                            "'" + comboBox3.SelectedItem + "'";
+
+                            conn.Open();
+                            cmd1 = new MySqlCommand(sql, conn);
+                            reader = cmd1.ExecuteReader();
+                            reader.Read();
+                            int numId = Convert.ToInt32(reader[0]); // номер группы
+                            reader.Close();
+                            conn.Close();
+                            return numId;
+                        }
+
+                        //string query = "INSERT INTO Заявки (Фамилия, Имя, Отчество, Страна, Город, Отель) VALUES(" +
+                        //string query = "INSERT INTO Заявки (Фамилия, Имя, Отчество, Страна, Город, Отель, Способ_отправки, Количество_дней, Оплачен) VALUES(" +
+                        string query = "INSERT INTO Заявки (Фамилия, Имя, Отчество, Страна, Город, Отель, Способ_отправки, Дата_отправки, Количество_дней, Оплачен) VALUES(" +
+                            "'" + textBox2.Text + "'," +    //фамилия
+                            "'" + textBox3.Text + "'," +    //имя
+                            "'" + textBox4.Text + "'," +    //отчество
+                            "'" + getNumCountry().ToString() + "'," + //страна
+                            "'" + getNumCity().ToString() + "'," +   //город
+                            "'" + getNumHotel().ToString() + "'," +  //отель
+                            "'" + comboBox4.Text + "'," +   // Способ отправки
+                            "'" + textBox5.Text + "'," +    //Дата отправки
+                                                            //"'" + dateTimePicker1.ToString() + "'," +
+                            "'" + Convert.ToString(comboBox5.Text) + "'," +   // кол-во
+                            "'" + comboBox6.Text + "')";   // Способ отправки;
+
+                        conn.Open();
+                        cmd1 = new MySqlCommand(query, conn);
+                        cmd1.ExecuteNonQuery();
+                        conn.Close();
+                        MessageBox.Show("Заявка добавлена", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        textBox2.Text = "";
+                        textBox3.Text = "";
+                        textBox4.Text = "";
+                    }
+                }
+                
             }
             catch (Exception ex)
             {

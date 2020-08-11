@@ -11,14 +11,13 @@ using System.Windows.Forms;
 
 namespace Модель_реализации
 {
-    public partial class Form3 : Form
+    public partial class Hotels : Form
     {
         MySqlCommand cmd;
         MySqlDataReader reader;
         MySqlConnectionStringBuilder db = new MySqlConnectionStringBuilder
         {
             Server = "pgsha.ru",
-
             UserID = "soft0008",
             Password = "b2TAEsRu",
             Database = "soft0008",
@@ -26,7 +25,7 @@ namespace Модель_реализации
             CharacterSet = "utf8"
         };
 
-        public Form3()
+        public Hotels()
         {
             InitializeComponent();
         }
@@ -38,7 +37,14 @@ namespace Модель_реализации
             {
                 using (MySqlConnection conn = new MySqlConnection(db.ConnectionString))
                 {
-                    string query = "SELECT * FROM `Отели` WHERE 1";
+                    MessageBox.Show("Пожалуйста подождите, список загружается!", "Напоминание", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    //string query = "SELECT * FROM `Отели` WHERE 1";
+                    string query =
+                        "SELECT Отели.id_отеля AS 'ID отеля', Отели.Отель, Города.Город AS 'Находится в городе:', Отели.Описание " +
+                        "FROM Отели " +
+                        "INNER JOIN Города ON Отели.Город = id_города";
+
                     cmd = new MySqlCommand(query, conn);
                     conn.Open();
                     reader = cmd.ExecuteReader();
